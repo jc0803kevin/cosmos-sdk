@@ -66,7 +66,7 @@ func TestFullAppSimulation(t *testing.T) {
 	require.NoError(t, err, "simulation setup failed")
 
 	defer func() {
-		db.Close()
+		require.NoError(t, db.Close())
 		require.NoError(t, os.RemoveAll(dir))
 	}()
 
@@ -104,7 +104,7 @@ func TestAppImportExport(t *testing.T) {
 	require.NoError(t, err, "simulation setup failed")
 
 	defer func() {
-		db.Close()
+		require.NoError(t, db.Close())
 		require.NoError(t, os.RemoveAll(dir))
 	}()
 
@@ -144,7 +144,7 @@ func TestAppImportExport(t *testing.T) {
 	require.NoError(t, err, "simulation setup failed")
 
 	defer func() {
-		newDB.Close()
+		require.NoError(t, newDB.Close())
 		require.NoError(t, os.RemoveAll(newDir))
 	}()
 
@@ -188,7 +188,7 @@ func TestAppImportExport(t *testing.T) {
 		{app.keys[govtypes.StoreKey], newApp.keys[govtypes.StoreKey], [][]byte{}},
 		{app.keys[evidencetypes.StoreKey], newApp.keys[evidencetypes.StoreKey], [][]byte{}},
 		{app.keys[capabilitytypes.StoreKey], newApp.keys[capabilitytypes.StoreKey], [][]byte{}},
-		{app.keys[authzkeeper.StoreKey], newApp.keys[authzkeeper.StoreKey], [][]byte{}},
+		{app.keys[authzkeeper.StoreKey], newApp.keys[authzkeeper.StoreKey], [][]byte{authzkeeper.GrantKey, authzkeeper.GrantQueuePrefix}},
 	}
 
 	for _, skp := range storeKeysPrefixes {
@@ -211,7 +211,7 @@ func TestAppSimulationAfterImport(t *testing.T) {
 	require.NoError(t, err, "simulation setup failed")
 
 	defer func() {
-		db.Close()
+		require.NoError(t, db.Close())
 		require.NoError(t, os.RemoveAll(dir))
 	}()
 
@@ -256,7 +256,7 @@ func TestAppSimulationAfterImport(t *testing.T) {
 	require.NoError(t, err, "simulation setup failed")
 
 	defer func() {
-		newDB.Close()
+		require.NoError(t, newDB.Close())
 		require.NoError(t, os.RemoveAll(newDir))
 	}()
 

@@ -16,6 +16,7 @@ import (
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	"github.com/cosmos/cosmos-sdk/simapp"
 	"github.com/cosmos/cosmos-sdk/testutil"
+	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -71,16 +72,16 @@ func Test_runShowCmd(t *testing.T) {
 	fakeKeyName2 := "runShowCmd_Key2"
 
 	t.Cleanup(func() {
-		kb.Delete("runShowCmd_Key1")
-		kb.Delete("runShowCmd_Key2")
+		cleanupKeys(t, kb, "runShowCmd_Key1")
+		cleanupKeys(t, kb, "runShowCmd_Key2")
 	})
 
 	path := hd.NewFundraiserParams(1, sdk.CoinType, 0).String()
-	_, err = kb.NewAccount(fakeKeyName1, testutil.TestMnemonic, "", path, hd.Secp256k1)
+	_, err = kb.NewAccount(fakeKeyName1, testdata.TestMnemonic, "", path, hd.Secp256k1)
 	require.NoError(t, err)
 
 	path2 := hd.NewFundraiserParams(1, sdk.CoinType, 1).String()
-	_, err = kb.NewAccount(fakeKeyName2, testutil.TestMnemonic, "", path2, hd.Secp256k1)
+	_, err = kb.NewAccount(fakeKeyName2, testdata.TestMnemonic, "", path2, hd.Secp256k1)
 	require.NoError(t, err)
 
 	// Now try single key
